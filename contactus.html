@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
@@ -19,8 +20,8 @@
             overflow-x: hidden;
             position: relative;
         }
-
-        /* Animated background particles */
+        /* Simple animated background particles */
+        
         .particles {
             position: absolute;
             width: 100%;
@@ -28,64 +29,66 @@
             overflow: hidden;
             z-index: 1;
         }
-
+        
         .particle {
             position: absolute;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             animation: float 6s ease-in-out infinite;
         }
-
+        
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.8;
+            }
         }
-
-        /* LOTS of Pokémon floating elements */
+        /* Only 3 key Pokémon for decoration */
+        
         .pokemon-bg {
             position: fixed;
             z-index: 2;
-            font-size: 2rem;
-            opacity: 0.4;
-            animation: pokemonFloat 8s ease-in-out infinite;
+            width: 80px;
+            height: 80px;
+            opacity: 0.3;
+            animation: pokemonFloat 10s ease-in-out infinite;
             pointer-events: none;
         }
-
+        
         @keyframes pokemonFloat {
-            0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
-            33% { transform: translateY(-30px) scale(1.1) rotate(120deg); }
-            66% { transform: translateY(-15px) scale(0.9) rotate(240deg); }
+            0%,
+            100% {
+                transform: translateY(0px) scale(1) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) scale(1.1) rotate(180deg);
+            }
         }
-
-        /* Position Pokémon all over the screen */
-        .pokemon-1 { top: 5%; left: 2%; animation-delay: 0s; }
-        .pokemon-2 { top: 10%; left: 8%; animation-delay: 1s; }
-        .pokemon-3 { top: 15%; left: 15%; animation-delay: 2s; }
-        .pokemon-4 { top: 20%; left: 5%; animation-delay: 3s; }
-        .pokemon-5 { top: 25%; left: 12%; animation-delay: 4s; }
-        .pokemon-6 { top: 5%; right: 2%; animation-delay: 0.5s; }
-        .pokemon-7 { top: 10%; right: 8%; animation-delay: 1.5s; }
-        .pokemon-8 { top: 15%; right: 15%; animation-delay: 2.5s; }
-        .pokemon-9 { top: 20%; right: 5%; animation-delay: 3.5s; }
-        .pokemon-10 { top: 25%; right: 12%; animation-delay: 4.5s; }
-        .pokemon-11 { bottom: 5%; left: 2%; animation-delay: 5s; }
-        .pokemon-12 { bottom: 10%; left: 8%; animation-delay: 5.5s; }
-        .pokemon-13 { bottom: 15%; left: 15%; animation-delay: 6s; }
-        .pokemon-14 { bottom: 20%; left: 5%; animation-delay: 6.5s; }
-        .pokemon-15 { bottom: 25%; left: 12%; animation-delay: 7s; }
-        .pokemon-16 { bottom: 5%; right: 2%; animation-delay: 0.2s; }
-        .pokemon-17 { bottom: 10%; right: 8%; animation-delay: 1.2s; }
-        .pokemon-18 { bottom: 15%; right: 15%; animation-delay: 2.2s; }
-        .pokemon-19 { bottom: 20%; right: 5%; animation-delay: 3.2s; }
-        .pokemon-20 { bottom: 25%; right: 12%; animation-delay: 4.2s; }
-        .pokemon-21 { top: 35%; left: 20%; animation-delay: 7.5s; }
-        .pokemon-22 { top: 45%; left: 25%; animation-delay: 8s; }
-        .pokemon-23 { top: 55%; left: 30%; animation-delay: 8.5s; }
-        .pokemon-24 { top: 35%; right: 20%; animation-delay: 9s; }
-        .pokemon-25 { top: 45%; right: 25%; animation-delay: 9.5s; }
-        .pokemon-26 { top: 55%; right: 30%; animation-delay: 10s; }
-
+        
+        .pokemon-pikachu {
+            top: 10%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+        
+        .pokemon-charizard {
+            bottom: 15%;
+            left: 5%;
+            animation-delay: 3s;
+        }
+        
+        .pokemon-mew {
+            top: 60%;
+            right: 5%;
+            animation-delay: 6s;
+        }
         /* Header */
+        
         header {
             position: relative;
             z-index: 10;
@@ -96,22 +99,24 @@
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
         }
-
+        
         .logo {
             font-size: 28px;
             font-weight: bold;
             color: #ffdd00;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
-
-        .logo .red { color: #ff6b6b; }
-
+        
+        .logo .red {
+            color: #ff6b6b;
+        }
+        
         nav ul {
             display: flex;
             list-style: none;
             gap: 30px;
         }
-
+        
         nav a {
             color: white;
             text-decoration: none;
@@ -119,15 +124,15 @@
             transition: color 0.3s ease;
             position: relative;
         }
-
+        
         nav a:hover {
             color: #ffdd00;
         }
-
+        
         nav a.active {
             color: #ffdd00;
         }
-
+        
         nav a.active::after {
             content: '';
             position: absolute;
@@ -137,7 +142,7 @@
             height: 2px;
             background: #ffdd00;
         }
-
+        
         .join-btn {
             background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
             padding: 12px 25px;
@@ -150,13 +155,13 @@
             text-decoration: none;
             display: inline-block;
         }
-
+        
         .join-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
         }
-
         /* Main Content */
+        
         main {
             position: relative;
             z-index: 10;
@@ -164,13 +169,13 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-
+        
         .contact-hero {
             text-align: center;
             margin-bottom: 60px;
             position: relative;
         }
-
+        
         .contact-hero h1 {
             font-size: 4rem;
             font-weight: bold;
@@ -179,12 +184,16 @@
             margin-bottom: 20px;
             animation: glow 2s ease-in-out infinite alternate;
         }
-
+        
         @keyframes glow {
-            from { text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 221, 0, 0.3); }
-            to { text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 221, 0, 0.5); }
+            from {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 221, 0, 0.3);
+            }
+            to {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 221, 0, 0.5);
+            }
         }
-
+        
         .contact-hero p {
             font-size: 1.2rem;
             color: #e0e0e0;
@@ -192,28 +201,14 @@
             margin: 0 auto;
             line-height: 1.6;
         }
-
-        .hero-pokemon {
-            position: absolute;
-            top: -20px;
-            right: -50px;
-            font-size: 4rem;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-
+        
         .contact-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: start;
         }
-
+        
         .contact-form {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(15px);
@@ -223,39 +218,25 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             position: relative;
         }
-
-        .form-pokemon {
-            position: absolute;
-            top: -30px;
-            right: -20px;
-            font-size: 3rem;
-            animation: wiggle 3s ease-in-out infinite;
-        }
-
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            75% { transform: rotate(-5deg); }
-        }
-
+        
         .contact-form h2 {
             color: #ffdd00;
             font-size: 2rem;
             margin-bottom: 30px;
             text-align: center;
         }
-
+        
         .form-group {
             margin-bottom: 25px;
         }
-
+        
         .form-group label {
             display: block;
             margin-bottom: 8px;
             color: #e0e0e0;
             font-weight: 500;
         }
-
+        
         .form-group input,
         .form-group textarea,
         .form-group select {
@@ -268,12 +249,12 @@
             font-size: 16px;
             transition: all 0.3s ease;
         }
-
+        
         .form-group select option {
             background: #1a1a2e;
             color: white;
         }
-
+        
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
@@ -281,17 +262,17 @@
             border-color: #ffdd00;
             box-shadow: 0 0 10px rgba(255, 221, 0, 0.3);
         }
-
+        
         .form-group input::placeholder,
         .form-group textarea::placeholder {
             color: rgba(255, 255, 255, 0.6);
         }
-
+        
         .form-group textarea {
             height: 120px;
             resize: vertical;
         }
-
+        
         .submit-btn {
             width: 100%;
             background: linear-gradient(45deg, #ffdd00, #ffa500);
@@ -305,24 +286,24 @@
             transition: all 0.3s ease;
             margin-top: 20px;
         }
-
+        
         .submit-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 221, 0, 0.4);
         }
-
+        
         .submit-btn:disabled {
             opacity: 0.7;
             cursor: not-allowed;
             transform: none;
         }
-
+        
         .contact-info {
             display: flex;
             flex-direction: column;
             gap: 40px;
         }
-
+        
         .info-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(15px);
@@ -333,43 +314,35 @@
             transition: transform 0.3s ease;
             position: relative;
         }
-
+        
         .info-card:hover {
             transform: translateY(-5px);
         }
-
+        
         .info-card .icon {
             font-size: 3rem;
             margin-bottom: 20px;
             display: block;
         }
-
+        
         .info-card h3 {
             color: #ffdd00;
             font-size: 1.5rem;
             margin-bottom: 15px;
         }
-
+        
         .info-card p {
             color: #e0e0e0;
             line-height: 1.6;
         }
-
-        .card-pokemon {
-            position: absolute;
-            bottom: -15px;
-            right: -15px;
-            font-size: 2rem;
-            opacity: 0.8;
-        }
-
+        
         .social-links {
             display: flex;
             justify-content: center;
             gap: 20px;
             margin-top: 40px;
         }
-
+        
         .social-links a {
             display: flex;
             align-items: center;
@@ -383,44 +356,50 @@
             font-size: 1.5rem;
             transition: all 0.3s ease;
         }
-
+        
         .social-links a:hover {
             background: #ffdd00;
             color: #1a1a2e;
             transform: translateY(-3px);
         }
-
         /* Success/Error Messages */
+        
         .message {
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
             display: none;
         }
-
+        
         .message.success {
             background: rgba(76, 175, 80, 0.2);
             border: 1px solid #4caf50;
             color: #4caf50;
         }
-
+        
         .message.error {
             background: rgba(244, 67, 54, 0.2);
             border: 1px solid #f44336;
             color: #f44336;
         }
-
+        
         .message.show {
             display: block;
             animation: slideIn 0.3s ease;
         }
-
+        
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-
         /* Loading spinner */
+        
         .spinner {
             display: inline-block;
             width: 20px;
@@ -431,101 +410,70 @@
             animation: spin 1s ease-in-out infinite;
             margin-right: 10px;
         }
-
+        
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
-
         /* Responsive Design */
+        
         @media (max-width: 768px) {
             .contact-container {
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
-
             .contact-hero h1 {
                 font-size: 2.5rem;
             }
-
             nav ul {
                 display: none;
             }
-
             .contact-form,
             .info-card {
                 padding: 25px;
             }
-
             .pokemon-bg {
-                font-size: 1.5rem;
-            }
-
-            .hero-pokemon {
-                position: static;
-                display: block;
-                margin: 20px 0;
+                width: 60px;
+                height: 60px;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="particles" id="particles"></div>
-    
-    <!-- LOTS of Pokémon floating in background -->
-    <div class="pokemon-bg pokemon-1">⚡</div>
-    <div class="pokemon-bg pokemon-2">🔥</div>
-    <div class="pokemon-bg pokemon-3">💧</div>
-    <div class="pokemon-bg pokemon-4">🌿</div>
-    <div class="pokemon-bg pokemon-5">🎵</div>
-    <div class="pokemon-bg pokemon-6">⭐</div>
-    <div class="pokemon-bg pokemon-7">🌙</div>
-    <div class="pokemon-bg pokemon-8">☀️</div>
-    <div class="pokemon-bg pokemon-9">❄️</div>
-    <div class="pokemon-bg pokemon-10">🌸</div>
-    <div class="pokemon-bg pokemon-11">🍃</div>
-    <div class="pokemon-bg pokemon-12">🌊</div>
-    <div class="pokemon-bg pokemon-13">🔮</div>
-    <div class="pokemon-bg pokemon-14">💎</div>
-    <div class="pokemon-bg pokemon-15">🎶</div>
-    <div class="pokemon-bg pokemon-16">✨</div>
-    <div class="pokemon-bg pokemon-17">🌟</div>
-    <div class="pokemon-bg pokemon-18">💫</div>
-    <div class="pokemon-bg pokemon-19">🌈</div>
-    <div class="pokemon-bg pokemon-20">🎭</div>
-    <div class="pokemon-bg pokemon-21">🎸</div>
-    <div class="pokemon-bg pokemon-22">🥁</div>
-    <div class="pokemon-bg pokemon-23">🎤</div>
-    <div class="pokemon-bg pokemon-24">🎹</div>
-    <div class="pokemon-bg pokemon-25">🎺</div>
-    <div class="pokemon-bg pokemon-26">🎻</div>
 
-  
+    <!-- Only 3 key Pokémon for clean design -->
+    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/25.gif" class="pokemon-bg pokemon-pikachu" alt="Pikachu">
+    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/6.gif" class="pokemon-bg pokemon-charizard" alt="Charizard">
+    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/151.gif" class="pokemon-bg pokemon-mew" alt="Mew">
+
+
 
     <main>
         <div class="contact-hero">
             <h1>Get in Touch</h1>
-            <div class="hero-pokemon">⚡</div>
             <p>Ready to start your musical Pokémon journey? Have questions, feedback, or want to collaborate? We'd love to hear from you!</p>
         </div>
 
         <div class="contact-container">
             <div class="contact-form">
-                <div class="form-pokemon">🎶</div>
                 <h2>Send us a Message</h2>
-                
+
                 <div id="messageContainer"></div>
-                
+
                 <form id="contactForm">
                     <div class="form-group">
                         <label for="name">Name *</label>
                         <input type="text" id="name" name="name" placeholder="Your full name" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="email">Email *</label>
                         <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="subject">Subject *</label>
                         <select id="subject" name="subject" required>
@@ -540,12 +488,12 @@
                             <option value="other">Other</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="message">Message *</label>
                         <textarea id="message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
                     </div>
-                    
+
                     <button type="submit" class="submit-btn" id="submitBtn">
                         Send Message
                     </button>
@@ -556,45 +504,58 @@
                 <div class="info-card">
                     <span class="icon">📧</span>
                     <h3>Email Us</h3>
-                    <p>hello@pokemonmusichunt.com<br>
-                    support@pokemonmusichunt.com<br>
-                    partnerships@pokemonmusichunt.com</p>
-                    <div class="card-pokemon">📨</div>
+                    <p>hello@pokemonmusichunt.com<br> support@pokemonmusichunt.com
+                        <br> partnerships@pokemonmusichunt.com
+                    </p>
                 </div>
 
                 <div class="info-card">
                     <span class="icon">🌍</span>
                     <h3>Community Hub</h3>
                     <p>Join our growing community of trainers and music lovers. Share your catches, compete in challenges, and discover new music together!</p>
-                    <div class="card-pokemon">🏆</div>
                 </div>
 
                 <div class="info-card">
                     <span class="icon">⚡</span>
                     <h3>Response Time</h3>
                     <p>We typically respond within 24 hours. For urgent technical issues, please include your username and device information.</p>
-                    <div class="card-pokemon">⏰</div>
                 </div>
 
                 <div class="info-card">
                     <span class="icon">🎮</span>
                     <h3>Game Support</h3>
                     <p>Having trouble with Pokémon evolution, quest completion, or music sync? Our support team is here to help get you back in the game!</p>
-                    <div class="card-pokemon">🛠️</div>
                 </div>
             </div>
         </div>
 
         <div class="social-links">
-            <a href="#" 
+            
         </div>
     </main>
 
     <script>
-        // Backend simulation - Contact form data storage
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Contact form functionality
         const ContactBackend = {
             submissions: [],
-            
+
             validateEmail: function(email) {
                 const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return re.test(email);
@@ -608,10 +569,8 @@
 
             submitForm: async function(formData) {
                 try {
-                    // Simulate API delay
                     await new Promise(resolve => setTimeout(resolve, 2000));
-                    
-                    // Validate data
+
                     if (!this.validateEmail(formData.email)) {
                         throw new Error('Invalid email format');
                     }
@@ -620,7 +579,6 @@
                         throw new Error('Message must be at least 10 characters long');
                     }
 
-                    // Sanitize and store data
                     const submission = {
                         id: Date.now(),
                         name: this.sanitizeInput(formData.name),
@@ -632,10 +590,7 @@
                     };
 
                     this.submissions.push(submission);
-                    
-                    // Simulate sending email notification
-                    await this.sendEmailNotification(submission);
-                    
+
                     return {
                         success: true,
                         message: 'Your message has been sent successfully! We\'ll get back to you within 24 hours.',
@@ -648,38 +603,18 @@
                         message: error.message || 'An error occurred while sending your message. Please try again.'
                     };
                 }
-            },
-
-            sendEmailNotification: async function(submission) {
-                console.log('📧 Email notification sent:', {
-                    to: 'admin@pokemonmusichunt.com',
-                    subject: `New Contact Form Submission: ${submission.subject}`,
-                    from: submission.email,
-                    submissionId: submission.id
-                });
-                
-                console.log('📧 Auto-reply sent to:', submission.email);
-            },
-
-            getSubmission: function(id) {
-                return this.submissions.find(sub => sub.id === parseInt(id));
-            },
-
-            getAllSubmissions: function() {
-                return this.submissions;
             }
         };
 
-        // UI Functions
         function showMessage(text, type = 'success') {
             const container = document.getElementById('messageContainer');
             const message = document.createElement('div');
             message.className = `message ${type}`;
             message.textContent = text;
-            
+
             container.innerHTML = '';
             container.appendChild(message);
-            
+
             setTimeout(() => {
                 message.classList.add('show');
             }, 100);
@@ -694,123 +629,37 @@
             }, 5000);
         }
 
-        function setLoadingState(loading) {
-            const submitBtn = document.getElementById('submitBtn');
-            const form = document.getElementById('contactForm');
-            
-            if (loading) {
-                submitBtn.innerHTML = '<span class="spinner"></span>Sending...';
-                submitBtn.disabled = true;
-                form.style.opacity = '0.7';
-            } else {
-                submitBtn.innerHTML = 'Send Message';
-                submitBtn.disabled = false;
-                form.style.opacity = '1';
-            }
-        }
-
-        // Form submission handling - FIXED
+        // Form submission handler
         document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            console.log('Form submitted!'); // Debug log
-            setLoadingState(true);
-            
-            // Get form data
+
+            const submitBtn = document.getElementById('submitBtn');
             const formData = new FormData(this);
-            const data = {
-                name: formData.get('name') ? formData.get('name').trim() : '',
-                email: formData.get('email') ? formData.get('email').trim() : '',
-                subject: formData.get('subject') || '',
-                message: formData.get('message') ? formData.get('message').trim() : ''
-            };
-            
-            console.log('Form data:', data); // Debug log
-            
-            // Client-side validation
-            if (!data.name || !data.email || !data.subject || !data.message) {
-                showMessage('Please fill in all required fields.', 'error');
-                setLoadingState(false);
-                return;
-            }
+            const data = Object.fromEntries(formData);
 
-            if (data.name.length < 2) {
-                showMessage('Name must be at least 2 characters long.', 'error');
-                setLoadingState(false);
-                return;
-            }
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="spinner"></div>Sending...';
 
-            // Submit to backend
             try {
                 const result = await ContactBackend.submitForm(data);
-                
+
                 if (result.success) {
                     showMessage(result.message, 'success');
                     this.reset();
-                    celebratePokemon();
                 } else {
                     showMessage(result.message, 'error');
                 }
             } catch (error) {
-                console.error('Submission error:', error);
-                showMessage('An unexpected error occurred. Please try again.', 'error');
+                showMessage('Network error. Please check your connection and try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Send Message';
             }
-            
-            setLoadingState(false);
         });
 
-        // Easter egg celebration
-        function celebratePokemon() {
-            const pokemonEmojis = ['⚡', '🔥', '💧', '🌿', '🌟', '✨', '🎵', '🎶', '🎭', '🎸', '🥁', '🎤'];
-            const container = document.body;
-            
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    const pokemon = document.createElement('div');
-                    pokemon.style.position = 'fixed';
-                    pokemon.style.fontSize = '2rem';
-                    pokemon.style.zIndex = '1000';
-                    pokemon.style.pointerEvents = 'none';
-                    pokemon.style.left = Math.random() * window.innerWidth + 'px';
-                    pokemon.style.top = '-50px';
-                    pokemon.textContent = pokemonEmojis[Math.floor(Math.random() * pokemonEmojis.length)];
-                    
-                    container.appendChild(pokemon);
-                    
-                    let pos = -50;
-                    const interval = setInterval(() => {
-                        pos += 5;
-                        pokemon.style.top = pos + 'px';
-                        pokemon.style.transform = `rotate(${pos}deg)`;
-                        
-                        if (pos > window.innerHeight) {
-                            clearInterval(interval);
-                            if (container.contains(pokemon)) {
-                                container.removeChild(pokemon);
-                            }
-                        }
-                    }, 50);
-                }, i * 200);
-            }
-        }
+        // Initialize
+        createParticles();
+    </script>
+</body>
 
-        // Create floating particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 30;
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                const size = Math.random() * 4 + 2;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                
-                particlesContainer.appendChil
-                
-            }}
+</html>
