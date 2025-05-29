@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokémon Music Hunt Quest</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --fire: #ff9441;
+            --water: #4db6e2;
+            --grass: #7ac74c;
+            --electric: #ffd600;
+            --ghost: #705898;
+            --dragon: #7038f8;
+            --steel: #b8b8d0;
+            --fairy: #ee99ac;
+            --dark: #705848;
+            --rock: #b8a038;
+            --ground: #e0c068;
+            --ice: #98d8d8;
+            --bug: #a8b820;
+            --fighting: #c03028;
+            --poison: #a040a0;
+            --flying: #a890f0;
+            --psychic: #f85888;
+            --normal: #a8a878;
+            --bg-dark: #1a1a2e; /* Darker, more thematic background */
+            --bg-card: #2f344a; /* Slightly lighter card background */
+            --text-main: #e0e0e0;
+            --text-muted: #b0b0b0;
+            --badge-shadow: #333;
+
+            /* New UI variables */
+            --border-primary: #007bff; /* Blue for Pokémon theme */
+            --glow-primary: #00f0ff;
+            --button-gradient-start: #FFD600;
+            --button-gradient-end: #FF9441;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif; /* Primary font for readability */
+            background: radial-gradient(ellipse at 60% 0%, var(--bg-card) 0%, var(--bg-dark) 100%);
+            min-height: 100vh;
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+            animation: background-pulse 15s infinite alternate;
+        }
+
+        @keyframes background-pulse {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            color: var(--text-main);
+            text-shadow: 2px 2px #000a;
+            letter-spacing: 1.5px;
+        }
+
+        .header h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2.5em;
+            color: #ffde00; /* Pokémon yellow */
+            text-shadow: 4px 4px #3b4cca; /* Pokémon blue shadow */
+            margin-bottom: 10px;
+        }
+
+        .header div {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9em;
+            color: var(--text-muted);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            border: 2px solid var(--border-primary);
+            color: var(--text-main);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9em;
+            border-radius: 16px 16px 0 0;
+            padding: 12px 36px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-out;
+        }
+
+        .tab-btn:hover::before {
+            transform: translateX(0);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(90deg, var(--button-gradient-start), var(--button-gradient-end));
+            color: #23242a;
+            font-weight: bold;
+            box-shadow: 0 8px 24px var(--button-gradient-start);
+            border-color: var(--button-gradient-start);
+            transform: translateY(-5px);
+        }
+
+        .quests {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 36px;
+            margin-bottom: 40px;
+        }
+
+        .quest-card {
+            background: var(--bg-card);
+            border-radius: 36px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 34px 20px 22px 20px;
+            position: relative;
+            overflow: visible;
+            box-shadow: 0 6px 36px 0 #000a;
+            z-index: 1;
+            transition: box-shadow 0.3s, transform 0.2s;
+            border: 2px solid transparent; /* Added for glow effect */
+            --card-glow: #ffd600; /* Default glow */
+            animation: card-glow-pulse 2.6s infinite alternate;
+        }
+
+        .quest-card::before {
+            content: "";
+            position: absolute;
+            inset: -8px; /* Reduce inset for a tighter glow */
+            border-radius: 40px;
+            z-index: -1;
+            box-shadow:
+                0 0 25px 8px var(--card-glow, #ffd600cc),
+                0 0 80px 25px var(--card-glow, #ffd60044);
+            opacity: 0.7;
+            filter: blur(1.5px); /* Slightly less blur */
+            pointer-events: none;
+            transition: box-shadow 0.4s, opacity 0.4s;
+        }
+
+        @keyframes card-glow-pulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 0.8; transform: scale(1.01); }
+        }
+
+        .quest-card:hover, .quest-card:focus-within {
+            transform: scale(1.05) rotate(-1deg);
+            z-index: 2;
+            box-shadow: 0 10px 45px rgba(0,0,0,0.7);
+        }
+
+        .quest-card:hover::before, .quest-card:focus-within::before {
+            box-shadow:
+                0 0 45px 15px var(--card-glow, #ffd600ee),
+                0 0 150px 50px var(--card-glow, #ffd60055);
+            opacity: 1;
+        }
+
+        .card-sparkle {
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            border-radius: 36px;
+            background: repeating-radial-gradient(circle at 60% 30%, #fff9 0 2px, transparent 3px 100%),
+                        repeating-radial-gradient(circle at 20% 80%, var(--card-glow, #ffd60099) 0 1.5px, transparent 2.5px 100%);
+            opacity: 0.13;
+            mix-blend-mode: screen;
+            z-index: 2;
+            animation: sparkle-move 2.7s infinite linear;
+        }
+
+        @keyframes sparkle-move {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 40px 60px, 60px 40px; }
+        }
+
+        .quest-card.completed {
+            background: linear-gradient(120deg, #3a4a3b 60%, #2f344a 100%);
+            box-shadow: 0 0 70px var(--grass), 0 6px 36px #000a; /* Greenish glow for completed */
+            border: 2.5px solid var(--grass);
+            filter: none;
+            animation: none; /* Stop glow pulse on completion */
+        }
+
+        .quest-card.completed::before {
+            display: none; /* Hide glow on completion */
+        }
+
+        .quest-card.completed::after {
+            content: "Champion!";
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #4CAF50; /* A nice green for champion */
+            color: #fff;
+            font-size: 0.95em;
+            border-radius: 12px;
+            padding: 5px 16px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 128, 0, 0.4);
+            animation: badge-pop 0.7s;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        @keyframes badge-pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .poke-avatar {
+            width: 98px;
+            height: 98px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            border: 4px solid #333;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 18px #000c, 0 0 18px 2px var(--card-glow, #ffd60055);
+            object-fit: contain;
+            z-index: 2;
+            animation: bounce 1.2s infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(-10px);}
+        }
+
+        .type-badge {
+            display: inline-block;
+            font-size: 0.98em;
+            background: #23242a;
+            color: #fff;
+            border-radius: 12px;
+            padding: 6px 22px;
+            margin-bottom: 2px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 1px 4px #0001;
+            text-shadow: 1px 1px #0007;
+            border: 2px solid var(--card-glow, #ffd600);
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        /* Type backgrounds - kept existing nice gradients */
+        .type-fire { background: linear-gradient(90deg, var(--fire), #ffd600);}
+        .type-water { background: linear-gradient(90deg, var(--water), #b2e0ff);}
+        .type-grass { background: linear-gradient(90deg, var(--grass), #2e3d2f);}
+        .type-electric { background: linear-gradient(90deg, var(--electric), #23242a);}
+        .type-ghost { background: linear-gradient(90deg, var(--ghost), #23242a);}
+        .type-dragon { background: linear-gradient(90deg, var(--dragon), #23242a);}
+        .type-steel { background: linear-gradient(90deg, var(--steel), #23242a);}
+        .type-fairy { background: linear-gradient(90deg, var(--fairy), #23242a);}
+        .type-dark { background: linear-gradient(90deg, var(--dark), #23242a);}
+        .type-rock { background: linear-gradient(90deg, var(--rock), #23242a);}
+        .type-ground { background: linear-gradient(90deg, var(--ground), #23242a);}
+        .type-ice { background: linear-gradient(90deg, var(--ice), #23242a);}
+        .type-bug { background: linear-gradient(90deg, var(--bug), #23242a);}
+        .type-fighting { background: linear-gradient(90deg, var(--fighting), #23242a);}
+        .type-poison { background: linear-gradient(90deg, var(--poison), #23242a);}
+        .type-flying { background: linear-gradient(90deg, var(--flying), #23242a);}
+        .type-psychic { background: linear-gradient(90deg, var(--psychic), #23242a);}
+        .type-normal { background: linear-gradient(90deg, var(--normal), #23242a);}
+
+        .quest-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.13em;
+            font-weight: bold;
+            color: #ffe066; /* Lighter yellow */
+            margin: 10px 0 12px 0;
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px #000a;
+        }
+
+        .progress-bar {
+            width: 90%;
+            height: 22px;
+            background: #23242a;
+            border-radius: 12px;
+            margin: 14px 0 10px 0;
+            overflow: hidden;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.5); /* Inner shadow for depth */
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.5s cubic-bezier(.7,1.5,.5,1);
+            box-shadow: 0 0 12px 2px var(--card-glow, #ffd60099);
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 10px; /* Small gradient at the end for flair */
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3));
+        }
+
+        .quest-actions {
+            margin-top: 18px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .quest-btn {
+            background: linear-gradient(90deg, var(--button-gradient-start), var(--button-gradient-end));
+            color: #23242a;
+            border: none;
+            border-radius: 16px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9em; /* Slightly smaller for compactness */
+            padding: 13px 28px; /* Adjusted padding */
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px var(--button-gradient-start); /* More prominent shadow */
+            transition: 0.15s ease-out, box-shadow 0.3s;
+            letter-spacing: 0.8px;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .quest-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--button-gradient-start);
+        }
+
+        .quest-btn:active {
+            transform: scale(0.97);
+            background: linear-gradient(90deg, var(--button-gradient-end), var(--button-gradient-start));
+            box-shadow: 0 4px 24px var(--button-gradient-start);
+        }
+
+        .motivation {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            margin-top: 10px;
+            font-style: italic;
+            text-align: center;
+            min-height: 28px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 4px #0007;
+        }
+
+        /* Badge Case */
+        .badge-case-btn {
+            position: fixed;
+            top: 18px;
+            right: 24px;
+            z-index: 20;
+            background: linear-gradient(90deg, var(--button-gradient-start), var(--button-gradient-end));
+            color: #23242a;
+            border: none;
+            border-radius: 18px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.95em;
+            padding: 10px 28px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 8px var(--button-gradient-start);
+            transition: 0.15s;
+            text-transform: uppercase;
+        }
+
+        .badge-case-modal-bg, .badge-detail-modal-bg, .evo-popup-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 22, 30, 0.96);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s forwards; /* Use forwards to keep the end state */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .badge-case-modal, .badge-detail-modal, .evo-popup {
+            background: var(--bg-card);
+            border-radius: 32px;
+            padding: 32px 32px 22px 32px;
+            box-shadow: 0 12px 50px #000a; /* More prominent shadow */
+            max-width: 950px;
+            min-width: 320px;
+            margin: 40px auto;
+            text-align: center;
+            position: relative;
+            animation: popup-bounce 0.6s cubic-bezier(.7,1.5,.5,1);
+            display: flex;
+            flex-direction: column;
+            max-height: 82vh;
+            overflow: hidden;
+            border: 3px solid #ffde00; /* Pokémon yellow border */
+        }
+
+        @keyframes popup-bounce {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .badge-case-modal h2, .badge-detail-modal h2 {
+            font-family: 'Press Start 2P', cursive;
+            margin-top: 0;
+            color: #ffd600;
+            letter-spacing: 1.2px;
+            margin-bottom: 18px;
+            text-shadow: 0 2px 12px #000a;
+        }
+
+        .badge-grid {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 22px;
+            justify-content: center;
+            margin-bottom: 8px;
+            padding: 6px 4px;
+            max-height: 56vh;
+            scrollbar-width: thin;
+            scrollbar-color: var(--button-gradient-start) transparent;
+        }
+
+        .badge-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .badge-grid::-webkit-scrollbar-thumb {
+            background-color: var(--button-gradient-start);
+            border-radius: 10px;
+        }
+
+        .badge-grid::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        .badge {
+            width: 90px;
+            height: 110px;
+            border-radius: 18px;
+            background: linear-gradient(120deg, #2a2f44, #3a4a3b 80%); /* Slightly different background for badges */
+            box-shadow: 0 4px 18px #000c, 0 0 18px 2px var(--card-glow, #ffd60033);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: box-shadow 0.2s, border 0.2s, transform 0.2s;
+            margin-bottom: 6px;
+            cursor: pointer;
+            border: 2.5px solid transparent;
+            outline: none;
+            --card-glow: #ffd600;
+        }
+
+        .badge:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px #000d, 0 0 25px 4px var(--card-glow, #ffd60055);
+        }
+
+        .badge.earned {
+            border: 2.5px solid var(--electric); /* Yellow glow for earned */
+            box-shadow: 0 0 36px var(--electric), 0 0 18px 2px var(--electric);
+            animation: badge-pop 0.7s;
+        }
+
+        .badge.shadow {
+            filter: grayscale(1) brightness(0.3) opacity(0.7); /* More pronounced shadow effect */
+            border: 2.5px dashed #444;
+            background: #202020; /* Darker background for shadow */
+            opacity: 1; /* Keep opacity at 1, filter handles the "shadow" look */
+        }
+
+        .badge img {
+            width: 54px;
+            margin-bottom: 6px;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); /* Subtle white glow on sprites */
+        }
+
+        .badge span {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.85em; /* Smaller font for badge names */
+            font-weight: bold;
+            color: var(--text-main);
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .badge-date {
+            font-size: 0.75em; /* Smaller date font */
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .badge-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 18px;
+            background: #FF4136; /* Red for close button */
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-family: inherit;
+            padding: 4px 12px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(255, 65, 54, 0.4);
+            z-index: 10;
+            transition: background 0.2s;
+        }
+
+        .badge-close-btn:hover {
+            background: #e03228;
+        }
+
+        /* Badge Detail Modal */
+        .badge-detail-modal {
+            padding: 28px 24px 22px 24px;
+            min-width: 260px;
+            max-width: 320px;
+            background: linear-gradient(145deg, var(--bg-card), #3a4a3b); /* Gradient for detail modal */
+        }
+
+        .badge-detail-modal img {
+            width: 80px; /* Larger image in detail */
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 20px #ffd600cc); /* Stronger glow */
+        }
+
+        .badge-detail-modal .badge-close-btn {
+            top: 8px; right: 12px; font-size: 1.2em;
+        }
+
+        /* Evolution Popup */
+        .evo-popup {
+            background: linear-gradient(120deg, #2f344a, #4a4f66 70%); /* More distinct background for popup */
+            border-radius: 26px;
+            box-shadow: 0 10px 40px #000c;
+            padding: 40px 32px 32px 32px;
+            max-width: 350px;
+            border: 3px solid #00f0ff; /* Blue border for evolution */
+        }
+
+        .evo-popup .evo-img {
+            width: 130px; /* Larger image */
+            margin-bottom: 18px;
+            animation: evo-glow 1.8s infinite alternate; /* Slower, more impactful glow */
+        }
+
+        @keyframes evo-glow {
+            from { filter: drop-shadow(0 0 8px #FFD60055);}
+            to { filter: drop-shadow(0 0 40px #FFD600);}
+        }
+
+        .evo-popup .evo-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.25em; /* Larger title */
+            font-weight: bold;
+            color: #FFD600;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 8px #000a;
+        }
+
+        .evo-popup .evo-quote {
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 22px;
+            font-size: 0.96em;
+        }
+
+        .evo-popup .close-btn {
+            background: linear-gradient(90deg, #7FFF00, #3CB371); /* Green for continue button */
+            color: #23242a;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.95em;
+            padding: 10px 22px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            box-shadow: 0 2px 8px rgba(127, 255, 0, 0.4);
+            transition: transform 0.15s;
+        }
+
+        .evo-popup .close-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Celebrate banner */
+        .celebrate-banner {
+            width: 100%;
+            background: linear-gradient(90deg, #ffd600 60%, #ff9441 100%);
+            color: #23242a;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.3em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            padding: 18px 0 14px 0;
+            box-shadow: 0 8px 32px #ffd60044;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 120;
+            animation: badge-pop 1.2s;
+            text-shadow: 0 2px 12px #fff8;
+            border-bottom: 4px solid #3b4cca; /* Blue border */
+        }
+
+        /* Loader */
+        #pokeball-loader {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 150;
+        }
+
+        .pokeball {
+            width: 80px;
+            height: 80px;
+            background-color: #fff;
+            border-radius: 50%;
+            position: relative;
+            border: 8px solid #000;
+            overflow: hidden;
+            animation: rotatePokeball 1s linear infinite;
+        }
+
+        .pokeball::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-color: #ff0000;
+        }
+
+        .pokeball::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 50%;
+            border: 6px solid #000;
+        }
+
+        @keyframes rotatePokeball {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+
+        @media (max-width: 700px) {
+            .quests { grid-template-columns: 1fr; }
+            .container { padding: 8px; }
+            .header h1 { font-size: 1.8em; }
+            .header div { font-size: 0.8em; }
+            .evo-popup { padding: 18px 6px 16px 6px;}
+            .badge-case-modal { padding: 10px 2px 8px 2px;}
+            .badge-case-btn { top: 10px; right: 10px; padding: 8px 12px; font-size: 0.85em;}
+            .badge-grid { max-height: 50vh; }
+            .quest-btn { font-size: 0.8em; padding: 10px 20px; }
+            .celebrate-banner { font-size: 1em; padding: 12px 0 8px 0; }
+        }
+    </style>
+</head>
+<body>
+    <button class="badge-case-btn" onclick="openBadgeCase()">🏅 Badge Case</button>
+    <div id="celebrate-banner" style="display:none;"></div>
+    <div id="pokeball-loader" style="display:none;">
+        <div class="pokeball"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Pokémon Music Hunt Quest</h1>
+            <div style="font-size:1.1em; color:var(--text-muted);">Listen, unlock, and evolve your Pokémon with music vibes!</div>
+        </div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('daily')">Daily</button>
+            <button class="tab-btn" onclick="switchTab('weekly')">Weekly</button>
+            <button class="tab-btn" onclick="switchTab('special')">Special</button>
+        </div>
+        <div id="quest-area" class="quests"></div>
+    </div>
+
+    <div id="badge-case-modal-bg" class="badge-case-modal-bg" style="display:none;">
+        <div class="badge-case-modal">
+            <button class="badge-close-btn" onclick="closeBadgeCase()">✕</button>
+            <h2>Your Evolution Badges</h2>
+            <div id="badge-grid" class="badge-grid"></div>
+            <div style="margin-top:10px; color:var(--text-muted); font-size:0.92em;">
+                Scroll to see all badges. Tap a badge for details.
+            </div>
+        </div>
+    </div>
+
+    <div id="badge-detail-modal-bg" class="badge-detail-modal-bg" style="display:none;">
+        <div class="badge-detail-modal" id="badge-detail-modal">
+            </div>
+    </div>
+
+    <div id="evo-popup-bg" class="evo-popup-bg" style="display:none;">
+        <div class="evo-popup">
+            <img class="evo-img" id="evo-img" src="" alt="">
+            <div class="evo-title" id="evo-title"></div>
+            <div class="evo-quote" id="evo-quote"></div>
+            <button class="close-btn" onclick="closeEvoPopup()">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Pokémon master list (expanded) ---
+        const pokemonMasterList = [
+            // Daily Quest Candidates (Common, early evolutions)
+            { type: "normal", chain: [
+                { name: "Pidgey", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/16.png" },
+                { name: "Pidgeotto", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/17.png" },
+                { name: "Pidgeot", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/18.png" }
+            ], quote: "Soar with every melody!" },
+            { type: "bug", chain: [
+                { name: "Caterpie", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png" },
+                { name: "Metapod", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/11.png" },
+                { name: "Butterfree", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/12.png" }
+            ], quote: "Transform through music!" },
+            { type: "grass", chain: [
+                { name: "Bulbasaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" },
+                { name: "Ivysaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png" },
+                { name: "Venusaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png" }
+            ], quote: "Grow with every beat. Nature is on your side!" },
+            { type: "fire", chain: [
+                { name: "Charmander", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png" },
+                { name: "Charmeleon", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png" },
+                { name: "Charizard", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png" }
+            ], quote: "Feel the burn! Every song brings you closer to evolution." },
+            { type: "water", chain: [
+                { name: "Squirtle", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png" },
+                { name: "Wartortle", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png" },
+                { name: "Blastoise", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png" }
+            ], quote: "Let the rhythm flow like water." },
+            { type: "poison", chain: [
+                { name: "Ekans", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/23.png" },
+                { name: "Arbok", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/24.png" }
+            ], quote: "Slither to the beat of success!" },
+            { type: "rock", chain: [
+                { name: "Geodude", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/74.png" },
+                { name: "Graveler", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/75.png" },
+                { name: "Golem", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/76.png" }
+            ], quote: "Rock out with your progress!" },
+            { type: "ground", chain: [
+                { name: "Sandshrew", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/27.png" },
+                { name: "Sandslash", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/28.png" }
+            ], quote: "Dig deep for those tunes!" },
+            { type: "psychic", chain: [
+                { name: "Abra", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png" },
+                { name: "Kadabra", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/64.png" },
+                { name: "Alakazam", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png" }
+            ], quote: "Concentrate your psychic power on music!" },
+            { type: "fighting", chain: [
+                { name: "Machop", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/66.png" },
+                { name: "Machoke", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/67.png" },
+                { name: "Machamp", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/68.png" }
+            ], quote: "Fight for every note!" },
+
+            // Weekly Quest Candidates (More diverse types, slightly longer chains)
+            { type: "electric", chain: [
+                { name: "Pichu", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/172.png" },
+                { name: "Pikachu", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" },
+                { name: "Raichu", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/26.png" }
+            ], quote: "Spark your journey with every beat!" },
+            { type: "ghost", chain: [
+                { name: "Gastly", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/92.png" },
+                { name: "Haunter", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/93.png" },
+                { name: "Gengar", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png" }
+            ], quote: "Spooky tunes fuel your spectral power!" },
+            { type: "ice", chain: [
+                { name: "Snorunt", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/361.png" },
+                { name: "Glalie", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/362.png" },
+                { name: "Froslass", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/478.png" }
+            ], quote: "Chill out with these cool rhythms!" },
+            { type: "steel", chain: [
+                { name: "Beldum", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/374.png" },
+                { name: "Metang", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/375.png" },
+                { name: "Metagross", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/376.png" }
+            ], quote: "Forge your strength with metallic beats!" },
+            { type: "dark", chain: [
+                { name: "Murkrow", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/198.png" },
+                { name: "Honchkrow", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/430.png" }
+            ], quote: "Embrace the shadows of the night!" },
+            { type: "fairy", chain: [
+                { name: "Clefairy", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/35.png" },
+                { name: "Clefable", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/36.png" }
+            ], quote: "Let your music be magical!" },
+            { type: "flying", chain: [
+                { name: "Natu", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/177.png" },
+                { name: "Xatu", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/178.png" }
+            ], quote: "Take flight on musical wings!" },
+            { type: "normal", chain: [
+                { name: "Eevee", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png" },
+                { name: "Vaporeon", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/134.png" }
+            ], quote: "Eevee's melody can evolve in many ways!" },
+
+            // Special Quest Candidates (Legendary/Pseudo-legendary feel, longer commitment)
+            { type: "dragon", chain: [
+                { name: "Dratini", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png" },
+                { name: "Dragonair", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/148.png" },
+                { name: "Dragonite", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png" }
+            ], quote: "Ascend to new heights with legendary melodies!" },
+            { type: "psychic", chain: [
+                { name: "Ralts", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/280.png" },
+                { name: "Kirlia", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/281.png" },
+                { name: "Gardevoir", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/282.png" }
+            ], quote: "Connect with the universe through sound!" },
+            { type: "fire", chain: [
+                { name: "Torchic", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/255.png" },
+                { name: "Combusken", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/256.png" },
+                { name: "Blaziken", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/257.png" }
+            ], quote: "Ignite your passion with powerful beats!" },
+            { type: "water", chain: [
+                { name: "Mudkip", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/258.png" },
+                { name: "Marshtomp", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/259.png" },
+                { name: "Swampert", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/260.png" }
+            ], quote: "Dive into a sea of evolving sounds!" }
+        ];
+
+        let questData = {
+            daily: [
+                { masterIdx: 0, stage: 0, progress: 0, required: 3, completed: false }, // Pidgey
+                { masterIdx: 1, stage: 0, progress: 0, required: 3, completed: false }, // Caterpie
+                { masterIdx: 2, stage: 0, progress: 0, required: 4, completed: false }, // Bulbasaur
+                { masterIdx: 3, stage: 0, progress: 0, required: 4, completed: false }, // Charmander
+                { masterIdx: 4, stage: 0, progress: 0, required: 3, completed: false }, // Squirtle
+                { masterIdx: 5, stage: 0, progress: 0, required: 3, completed: false }, // Ekans
+                { masterIdx: 6, stage: 0, progress: 0, required: 4, completed: false }, // Geodude
+                { masterIdx: 7, stage: 0, progress: 0, required: 3, completed: false }, // Sandshrew
+                { masterIdx: 8, stage: 0, progress: 0, required: 5, completed: false }, // Abra
+                { masterIdx: 9, stage: 0, progress: 0, required: 4, completed: false }  // Machop
+            ],
+            weekly: [
+                { masterIdx: 10, stage: 0, progress: 0, required: 6, completed: false }, // Pichu
+                { masterIdx: 11, stage: 0, progress: 0, required: 7, completed: false }, // Gastly
+                { masterIdx: 12, stage: 0, progress: 0, required: 6, completed: false }, // Snorunt
+                { masterIdx: 13, stage: 0, progress: 0, required: 8, completed: false }, // Beldum
+                { masterIdx: 14, stage: 0, progress: 0, required: 7, completed: false }, // Murkrow
+                { masterIdx: 15, stage: 0, progress: 0, required: 6, completed: false }, // Clefairy
+                { masterIdx: 16, stage: 0, progress: 0, required: 5, completed: false }, // Natu
+                { masterIdx: 17, stage: 0, progress: 0, required: 8, completed: false }  // Eevee
+            ],
+            special: [
+                { masterIdx: 18, stage: 0, progress: 0, required: 10, completed: false }, // Dratini
+                { masterIdx: 19, stage: 0, progress: 0, required: 12, completed: false }, // Ralts
+                { masterIdx: 20, stage: 0, progress: 0, required: 15, completed: false }, // Torchic
+                { masterIdx: 21, stage: 0, progress: 0, required: 15, completed: false }  // Mudkip
+            ]
+        };
+
+        let badgeData = JSON.parse(localStorage.getItem('pokeMusicBadgesV5') || '{}');
+        let currentTab = "daily";
+
+        function showLoader() {
+            document.getElementById('pokeball-loader').style.display = 'flex';
+        }
+
+        function hideLoader() {
+            document.getElementById('pokeball-loader').style.display = 'none';
+        }
+
+        function switchTab(tab) {
+            showLoader(); // Show loader on tab switch
+            currentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
+            // A small delay to show the loader, then render quests
+            setTimeout(() => {
+                renderQuests();
+                hideLoader(); // Hide loader after rendering
+            }, 300);
+        }
+
+        function renderQuests() {
+            const area = document.getElementById('quest-area');
+            area.innerHTML = '';
+            let allComplete = true;
+            questData[currentTab].forEach((quest, idx) => {
+                const pokeLine = pokemonMasterList[quest.masterIdx];
+                const stage = quest.stage;
+                const atLastStage = stage === pokeLine.chain.length - 1;
+                const completed = atLastStage && quest.completed;
+                if (!completed) allComplete = false;
+
+                const poke = pokeLine.chain[stage];
+                const nextPoke = atLastStage ? null : pokeLine.chain[stage + 1];
+                const typeClass = `type-${pokeLine.type}`;
+                const progressPercent = atLastStage ? (completed ? 100 : 0) : Math.min(100, Math.round((quest.progress / quest.required) * 100));
+
+                area.innerHTML += `
+                    <div class="quest-card${completed ? ' completed' : ''}" style="--card-glow: var(--${pokeLine.type});">
+                        <div class="card-sparkle"></div>
+                        <img class="poke-avatar" src="${poke.img}" alt="${poke.name}">
+                        <div class="type-badge ${typeClass}">${pokeLine.type.toUpperCase()}</div>
+                        <div class="quest-title">
+                            ${poke.name}${nextPoke ? ` <span style="font-size:0.9em;">→</span> ${nextPoke.name}` : ''}
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill ${typeClass}" style="width:${progressPercent}%; background:var(--${pokeLine.type});"></div>
+                        </div>
+                        <div style="font-size:0.95em; margin-top:2px; color:var(--text-muted);">
+                            ${atLastStage ? (completed ? 'All evolutions complete!' : 'Final Stage!') : `Progress: <b>${quest.progress}</b> / ${quest.required}`}
+                        </div>
+                        <div class="motivation">
+                            ${completed ? "🎉 Champion! You've evolved this Pokémon fully!" : pokeLine.quote}
+                        </div>
+                        <div class="quest-actions">
+                            ${completed ? ''
+                                : atLastStage && quest.progress >= quest.required // Allow completing if at last stage and progress met
+                                    ? `<button class="quest-btn" onclick="completeFinalEvolution('${currentTab}',${idx})">Complete</button>`
+                                    : quest.progress >= quest.required
+                                        ? `<button class="quest-btn" onclick="evolvePokemon('${currentTab}',${idx})">Evolve</button>`
+                                        : `<button class="quest-btn" onclick="listenSong('${currentTab}',${idx})">Listen Song</button>`
+                            }
+                        </div>
+                    </div>
+                `;
+            });
+            if (allComplete && questData[currentTab].length > 0) showCelebrateBanner();
+            else hideCelebrateBanner();
+        }
+
+        function listenSong(tab, idx) {
+            const quest = questData[tab][idx];
+            const pokeLine = pokemonMasterList[quest.masterIdx];
+            if (quest.stage === pokeLine.chain.length - 1 && quest.completed) return; // Already fully completed
+            if (quest.progress < quest.required) {
+                quest.progress++;
+                renderQuests();
+            }
+        }
+
+        function evolvePokemon(tab, idx) {
+            const quest = questData[tab][idx];
+            const pokeLine = pokemonMasterList[quest.masterIdx];
+            const poke = pokeLine.chain[quest.stage];
+            const nextPoke = pokeLine.chain[quest.stage + 1];
+
+            if (!nextPoke) { // This should ideally not be reached if logic is correct for 'Evolve' button
+                console.warn("Attempted to evolve a Pokémon that is already at its final stage.");
+                return;
+            }
+            
+            showEvoPopup(nextPoke.img, `${poke.name} evolved into ${nextPoke.name}!`, pokeLine.quote);
+
+            badgeData[nextPoke.name] = {
+                name: nextPoke.name,
+                img: nextPoke.img,
+                type: pokeLine.type,
+                date: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+                quote: pokeLine.quote
+            };
+            localStorage.setItem('pokeMusicBadgesV5', JSON.stringify(badgeData));
+
+            quest.stage++;
+            quest.progress = 0;
+            if (quest.stage === pokeLine.chain.length - 1) {
+                // If it's the last stage, set completed to false initially, so 'Complete' button appears
+                quest.completed = false;
+            }
+            renderQuests();
+        }
+
+        function completeFinalEvolution(tab, idx) {
+            const quest = questData[tab][idx];
+            const pokeLine = pokemonMasterList[quest.masterIdx];
+            const poke = pokeLine.chain[quest.stage];
+
+            if (quest.completed) { // Already completed
+                console.warn("This quest is already completed.");
+                return;
+            }
+
+            showEvoPopup(poke.img, `${poke.name} is fully evolved!`, "You are a true Pokémon Music Champion!");
+            badgeData[poke.name] = {
+                name: poke.name,
+                img: poke.img,
+                type: pokeLine.type,
+                date: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+                quote: "Champion!"
+            };
+            localStorage.setItem('pokeMusicBadgesV5', JSON.stringify(badgeData));
+            quest.completed = true;
+            renderQuests();
+        }
+
+        function showEvoPopup(img, title, quote) {
+            document.getElementById('evo-img').src = img;
+            document.getElementById('evo-title').textContent = title;
+            document.getElementById('evo-quote').textContent = quote + " New adventures await!";
+            document.getElementById('evo-popup-bg').style.display = 'flex';
+        }
+
+        function closeEvoPopup() {
+            document.getElementById('evo-popup-bg').style.display = 'none';
+        }
+
+        // Badge Case
+        function openBadgeCase() {
+            showLoader(); // Show loader
+            setTimeout(() => {
+                renderBadges();
+                document.getElementById('badge-case-modal-bg').style.display = 'flex';
+                hideLoader(); // Hide loader
+            }, 300);
+        }
+
+        function closeBadgeCase() {
+            document.getElementById('badge-case-modal-bg').style.display = 'none';
+        }
+
+        function renderBadges() {
+            const allEvos = [];
+            pokemonMasterList.forEach(line => {
+                line.chain.forEach((poke, idx) => {
+                    // Only add evolutions (not base form for badge case, unless it's a single-stage like legendary)
+                    if (idx > 0) {
+                        allEvos.push({
+                            name: poke.name,
+                            img: poke.img,
+                            type: line.type,
+                            champion: (idx === line.chain.length - 1) // Mark final evolution in a chain as potential champion badge
+                        });
+                    }
+                });
+                // For single-stage Pokémon that are the "end" of their line (e.g., some legendaries if added)
+                if (line.chain.length === 1) {
+                     allEvos.push({
+                        name: line.chain[0].name,
+                        img: line.chain[0].img,
+                        type: line.type,
+                        champion: true // Single stage can be a champion in itself
+                    });
+                }
+            });
+
+            // Sort badges alphabetically by name for consistent display
+            allEvos.sort((a, b) => a.name.localeCompare(b.name));
+
+            const grid = document.getElementById('badge-grid');
+            grid.innerHTML = '';
+            allEvos.forEach(evo => {
+                const earned = badgeData[evo.name];
+                grid.innerHTML += `
+                    <div class="badge${earned ? ' earned' : ' shadow'} type-${evo.type}" tabindex="0"
+                        style="--card-glow: var(--${evo.type});"
+                        onclick="showBadgeDetail('${evo.name}')"
+                        onkeypress="if(event.key==='Enter'){showBadgeDetail('${evo.name}')}"
+                        title="${earned ? 'Earned: ' + earned.date : 'Locked'}">
+                        <img src="${evo.img}" alt="${evo.name}" />
+                        <span>${evo.name}${evo.champion ? ' 🏆' : ''}</span>
+                        <div class="badge-date">${earned ? earned.date : ''}</div>
+                    </div>
+                `;
+            });
+        }
+
+        // Badge Detail Modal
+        function showBadgeDetail(name) {
+            const badge = badgeData[name];
+            if (!badge) {
+                // If not earned, find the corresponding pokemon in the master list to show its shadow details
+                const unearnedBadgeInfo = pokemonMasterList.flatMap(line => line.chain)
+                                                            .find(p => p.name === name);
+                if (!unearnedBadgeInfo) return; // Should not happen
+
+                const modal = document.getElementById('badge-detail-modal');
+                modal.innerHTML = `
+                    <button class="badge-close-btn" onclick="closeBadgeDetail()">✕</button>
+                    <img src="${unearnedBadgeInfo.img}" alt="${unearnedBadgeInfo.name}" style="filter: grayscale(1) brightness(0.4);" />
+                    <div style="font-size:1.1em; color:var(--text-muted); font-weight:bold;">${unearnedBadgeInfo.name}</div>
+                    <div class="type-badge type-${unearnedBadgeInfo.type}" style="margin:8px 0 6px 0; background: #555;">${unearnedBadgeInfo.type.toUpperCase()}</div>
+                    <div style="color:var(--text-muted); margin-bottom:8px;">Status: Unlocked</div>
+                    <div style="font-size:0.96em; color:var(--text-muted); font-style:italic;">"Keep evolving to earn this badge!"</div>
+                `;
+            } else {
+                const modal = document.getElementById('badge-detail-modal');
+                modal.innerHTML = `
+                    <button class="badge-close-btn" onclick="closeBadgeDetail()">✕</button>
+                    <img src="${badge.img}" alt="${badge.name}" />
+                    <div style="font-size:1.1em; color:#ffd600; font-weight:bold;">${badge.name}</div>
+                    <div class="type-badge type-${badge.type}" style="margin:8px 0 6px 0;">${badge.type.toUpperCase()}</div>
+                    <div style="color:var(--text-muted); margin-bottom:8px;">Earned: ${badge.date}</div>
+                    <div style="font-size:0.96em; color:var(--text-muted); font-style:italic;">"${badge.quote}"</div>
+                `;
+            }
+            document.getElementById('badge-detail-modal-bg').style.display = 'flex';
+        }
+
+        function closeBadgeDetail() {
+            document.getElementById('badge-detail-modal-bg').style.display = 'none';
+        }
+
+        // Celebrate banner
+        function showCelebrateBanner() {
+            const banner = document.getElementById('celebrate-banner');
+            banner.innerHTML = "🎉 All Quests Complete in this category! You’re a Pokémon Music Champion! 🎵";
+            banner.style.display = 'block';
+        }
+
+        function hideCelebrateBanner() {
+            document.getElementById('celebrate-banner').style.display = 'none';
+        }
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuests();
+        });
+
+        // Allow closing badge detail modal by background click
+        document.getElementById('badge-detail-modal-bg').onclick = function(e) {
+            if (e.target === this) closeBadgeDetail();
+        };
+        document.getElementById('badge-case-modal-bg').onclick = function(e) {
+            if (e.target === this) closeBadgeCase();
+        };
+        document.getElementById('evo-popup-bg').onclick = function(e) {
+            if (e.target === this) closeEvoPopup();
+        };
+    </script>
+</body>
+</html>
